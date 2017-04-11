@@ -10,8 +10,10 @@ else
     exit 1
 fi
 
-ATTACHMENT_BACKUP_OUTPUT="${BACKUP_DIR}/jira-attachments-${TIMESTAMP}.tar"
-DATABASE_DUMP_OUTPUT="${BACKUP_DIR}/jira-database-dump-${TIMESTAMP}.sql"
+JIRA_BACKUP_OUTPUT="${BACKUP_DIR}/jira-home-${TIMESTAMP}.tar"
+JIRA_DATABASE_DUMP_OUTPUT="${BACKUP_DIR}/jira-database-dump-${TIMESTAMP}.sql"
+CONFLUENCE_BACKUP_OUTPUT="${BACKUP_DIR}/confluence-home-${TIMESTAMP}.tar"
+CONFLUENCE_DATABASE_DUMP_OUTPUT="${BACKUP_DIR}/confluence-database-dump-${TIMESTAMP}.sql"
 
 
 function setup() {
@@ -21,23 +23,37 @@ function setup() {
     fi
 }
 
-function backup_attachments() {
-    echo "Backing up Jira attachments"
-    /bin/tar -cpf ${ATTACHMENT_BACKUP_OUTPUT} ${ATTACHMENTS_PATH}
-    echo "Created ${ATTACHMENT_BACKUP_OUTPUT}"
+function backup_jira-home() {
+    echo "Backing up Jira home dirrectory"
+    /bin/tar -cpf ${JIRA_BACKUP_OUTPUT} ${JIRA-HOME_PATH}
+    echo "Created ${JIRA_BACKUP_OUTPUT}"
 }
 
-function dump_database() {
+function dump_database_jira() {
     echo "Dumping Jira database"
-    /usr/bin/mysqldump --add-drop-database --host="${DB_HOST}" --user="${DB_USER}" --password="${DB_PASS}" "${DB_NAME}" > "${DATABASE_DUMP_OUTPUT}"
+    /usr/bin/mysqldump --add-drop-database --host="${DB_HOST_JIRA}" --user="${DB_USER_JIRA}" --password="${DB_PASS_JIRA}" "${DB_NAME_JIRA}" > "${DATABASE_DUMP_OUTPUT}"
     echo "Created ${DATABASE_DUMP_OUTPUT}"
 }
 
-function main() {
-    echo "Backing up Jira"
-    setup
-    backup_attachments
-    dump_database
+function backup_confluence-home() {
+    echo "Backing up Confluence home dirrectory"
+    /bin/tar -cpf ${JIRA_BACKUP_OUTPUT} ${JIRA-HOME_PATH}
+    echo "Created ${JIRA_BACKUP_OUTPUT}"
 }
 
-main
+function dump_database_jira() {
+    echo "Dumping Jira database"
+    /usr/bin/mysqldump --add-drop-database --host="${DB_HOST_JIRA}" --user="${DB_USER_JIRA}" --password="${DB_PASS_JIRA}" "${DB_NAME_JIRA}" > "${DATABASE_DUMP_OUTPUT}"
+    echo "Created ${DATABASE_DUMP_OUTPUT}"
+}
+
+function main_jira() {
+    echo "Backing up Jira"
+    setup
+    backup_jira-home
+    dump_database_jira
+}
+
+main_jira
+main_confluence
+
