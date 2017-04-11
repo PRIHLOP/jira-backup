@@ -31,20 +31,20 @@ function backup_jira-home() {
 
 function dump_database_jira() {
     echo "Dumping Jira database"
-    /usr/bin/mysqldump --add-drop-database --host="${DB_HOST_JIRA}" --user="${DB_USER_JIRA}" --password="${DB_PASS_JIRA}" "${DB_NAME_JIRA}" > "${DATABASE_DUMP_OUTPUT}"
-    echo "Created ${DATABASE_DUMP_OUTPUT}"
+    /usr/bin/mysqldump --add-drop-database --host="${DB_HOST_JIRA}" --user="${DB_USER_JIRA}" --password="${DB_PASS_JIRA}" "${DB_NAME_JIRA}" > "${JIRA_DATABASE_DUMP_OUTPUT}"
+    echo "Created ${JIRA_DATABASE_DUMP_OUTPUT}"
 }
 
 function backup_confluence-home() {
     echo "Backing up Confluence home dirrectory"
-    /bin/tar -cpf ${JIRA_BACKUP_OUTPUT} ${JIRA-HOME_PATH}
-    echo "Created ${JIRA_BACKUP_OUTPUT}"
+    /bin/tar -cpf ${CONFLUENCE_BACKUP_OUTPUT} ${CONFLUENCE-HOME_PATH}
+    echo "Created ${CONFLUENCE_BACKUP_OUTPUT}"
 }
 
-function dump_database_jira() {
-    echo "Dumping Jira database"
-    /usr/bin/mysqldump --add-drop-database --host="${DB_HOST_JIRA}" --user="${DB_USER_JIRA}" --password="${DB_PASS_JIRA}" "${DB_NAME_JIRA}" > "${DATABASE_DUMP_OUTPUT}"
-    echo "Created ${DATABASE_DUMP_OUTPUT}"
+function dump_database_confluence() {
+    echo "Dumping Confluence database"
+    /usr/bin/mysqldump --add-drop-database --host="${DB_HOST_CONFLUENCE}" --user="${DB_USER_CONFLUENCE}" --password="${DB_PASS_CONFLUENCE}" "${DB_NAME_CONFLUENCE}" > "${CONFLUENCE_DATABASE_DUMP_OUTPUT}"
+    echo "Created ${CONFLUENCE_DATABASE_DUMP_OUTPUT}"
 }
 
 function main_jira() {
@@ -52,6 +52,13 @@ function main_jira() {
     setup
     backup_jira-home
     dump_database_jira
+}
+
+function main_confluence() {
+    echo "Backing up Confluence"
+    setup
+    backup_jira-home
+    dump_database_confluence
 }
 
 main_jira
