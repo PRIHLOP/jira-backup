@@ -23,7 +23,7 @@ function setup() {
     fi
 }
 
-function backup_jira-home() {
+function backup_jira_home() {
     echo "Backing up Jira home dirrectory"
     /bin/tar -czpf ${JIRA_BACKUP_OUTPUT} ${JIRA_HOME_PATH}
     echo "Created ${JIRA_BACKUP_OUTPUT}"
@@ -35,7 +35,7 @@ function dump_database_jira() {
     echo "Created ${JIRA_DATABASE_DUMP_OUTPUT}"
 }
 
-function backup_confluence-home() {
+function backup_confluence_home() {
     echo "Backing up Confluence home dirrectory"
     /bin/tar -czpf ${CONFLUENCE_BACKUP_OUTPUT} ${CONFLUENCE_HOME_PATH}
     echo "Created ${CONFLUENCE_BACKUP_OUTPUT}"
@@ -50,14 +50,14 @@ function dump_database_confluence() {
 function main_jira() {
     echo "Backing up Jira"
     setup
-    backup_jira-home
+    backup_jira_home
     dump_database_jira
 }
 
 function main_confluence() {
     echo "Backing up Confluence"
     setup
-    backup_jira-home
+    backup_confluence_home
     dump_database_confluence
 }
 
