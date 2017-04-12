@@ -11,9 +11,9 @@ else
 fi
 
 JIRA_BACKUP_OUTPUT="${BACKUP_DIR}/jira-home-${TIMESTAMP}.tar"
-JIRA_DATABASE_DUMP_OUTPUT="${BACKUP_DIR}/jira-database-dump-${TIMESTAMP}.sql"
+JIRA_DATABASE_DUMP_OUTPUT="${BACKUP_DIR}/jira-database-dump-${TIMESTAMP}.sql.gz"
 CONFLUENCE_BACKUP_OUTPUT="${BACKUP_DIR}/confluence-home-${TIMESTAMP}.tar"
-CONFLUENCE_DATABASE_DUMP_OUTPUT="${BACKUP_DIR}/confluence-database-dump-${TIMESTAMP}.sql"
+CONFLUENCE_DATABASE_DUMP_OUTPUT="${BACKUP_DIR}/confluence-database-dump-${TIMESTAMP}.sql.gz"
 
 
 function setup() {
@@ -25,25 +25,25 @@ function setup() {
 
 function backup_jira-home() {
     echo "Backing up Jira home dirrectory"
-    /bin/tar -cpf ${JIRA_BACKUP_OUTPUT} ${JIRA-HOME_PATH}
+    /bin/tar -czpf ${JIRA_BACKUP_OUTPUT} ${JIRA_HOME_PATH}
     echo "Created ${JIRA_BACKUP_OUTPUT}"
 }
 
 function dump_database_jira() {
     echo "Dumping Jira database"
-    /usr/bin/mysqldump --add-drop-database --host="${DB_HOST_JIRA}" --user="${DB_USER_JIRA}" --password="${DB_PASS_JIRA}" "${DB_NAME_JIRA}" > "${JIRA_DATABASE_DUMP_OUTPUT}"
+    /usr/bin/mysqldump --add-drop-database --host="${DB_HOST_JIRA}" --user="${DB_USER_JIRA}" --password="${DB_PASS_JIRA}" "${DB_NAME_JIRA}" | gzip > "${JIRA_DATABASE_DUMP_OUTPUT}"
     echo "Created ${JIRA_DATABASE_DUMP_OUTPUT}"
 }
 
 function backup_confluence-home() {
     echo "Backing up Confluence home dirrectory"
-    /bin/tar -cpf ${CONFLUENCE_BACKUP_OUTPUT} ${CONFLUENCE-HOME_PATH}
+    /bin/tar -czpf ${CONFLUENCE_BACKUP_OUTPUT} ${CONFLUENCE_HOME_PATH}
     echo "Created ${CONFLUENCE_BACKUP_OUTPUT}"
 }
 
 function dump_database_confluence() {
     echo "Dumping Confluence database"
-    /usr/bin/mysqldump --add-drop-database --host="${DB_HOST_CONFLUENCE}" --user="${DB_USER_CONFLUENCE}" --password="${DB_PASS_CONFLUENCE}" "${DB_NAME_CONFLUENCE}" > "${CONFLUENCE_DATABASE_DUMP_OUTPUT}"
+    /usr/bin/mysqldump --add-drop-database --host="${DB_HOST_CONFLUENCE}" --user="${DB_USER_CONFLUENCE}" --password="${DB_PASS_CONFLUENCE}" "${DB_NAME_CONFLUENCE}" | gzip > "${CONFLUENCE_DATABASE_DUMP_OUTPUT}"
     echo "Created ${CONFLUENCE_DATABASE_DUMP_OUTPUT}"
 }
 
