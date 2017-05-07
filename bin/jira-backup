@@ -15,6 +15,8 @@ JIRA_DATABASE_DUMP_OUTPUT="${BACKUP_DIR}/jira-database-dump-${TIMESTAMP}.sql.gz"
 CONFLUENCE_BACKUP_OUTPUT="${BACKUP_DIR}/confluence-home-${TIMESTAMP}.tar"
 CONFLUENCE_DATABASE_DUMP_OUTPUT="${BACKUP_DIR}/confluence-database-dump-${TIMESTAMP}.sql.gz"
 
+# Delete backups older then 3 days
+find ${BACKUP_DIR}/* -mtime +3 -exec rm {} \;
 
 function setup() {
     if [ ! -d "${BACKUP_DIR}" ]; then
