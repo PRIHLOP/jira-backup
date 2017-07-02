@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONFIG_FILE='../configs/jira-backup.conf'
+CONFIG_FILE='$(dirname $0)../configs/jira-backup.conf'
 TIMESTAMP=$(date +'%Y-%m-%d-%H-%M')
 
 if [ -e ${CONFIG_FILE} ]; then
